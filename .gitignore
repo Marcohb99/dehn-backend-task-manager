@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+dehn-backend-task-manager.log
