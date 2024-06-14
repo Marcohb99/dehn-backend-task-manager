@@ -5,12 +5,24 @@ import org.junit.jupiter.api.Test;
 public class CreateTaskCommandTest {
     @Test
     public void testInvoke() {
+        // Given
         CreateTaskCommand createTaskCommand = new CreateTaskCommand();
+
+        // When
         String result = createTaskCommand.invoke(
                 "sample-title",
                 "sample-description",
                 "sample-dueDate"
         );
-        assert result.equals("Task created successfully!");
+
+        // Then
+        assert result.equals(
+                String.format(
+                        "Task with id: %d, title: %s, and due date: %s created successfully!",
+                        1,
+                        "sample-title",
+                        "sample-dueDate"
+                )
+        );
     }
 }

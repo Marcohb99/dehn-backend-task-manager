@@ -12,6 +12,11 @@ public class CreateTaskCommand {
             @ShellOption String description,
             @ShellOption String dueDate
     ) {
-        return "Task created successfully!";
+        return String.format(
+                "Task with id: %d, title: %s, and due date: %s created successfully!",
+                1,
+                title,
+                dueDate
+        );
     }
 }
