@@ -1,3 +1,9 @@
+## 0.9.0 (2024-06-17)
+
+### Feat
+
+- **delete-task-command**: added a command to delete a task with a fake implementation
+
 ## 0.8.0 (2024-06-17)
 
 ### Feat
