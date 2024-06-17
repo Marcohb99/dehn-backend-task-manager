@@ -3,16 +3,18 @@ package com.mhb.dehn_backend_task_manager.Application.UseCase;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootTest
 public class ListTasksTest {
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException, ParseException {
         // Given / Arrange
         TaskRepository repositoryMock = Mockito.mock(TaskRepository.class);
         Mockito.when(repositoryMock.findAll()).thenReturn(

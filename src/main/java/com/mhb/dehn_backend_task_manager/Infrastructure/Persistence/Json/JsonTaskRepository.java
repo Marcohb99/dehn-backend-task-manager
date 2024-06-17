@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.json.simple.parser.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -49,12 +50,21 @@ public class JsonTaskRepository implements TaskRepository {
     }
 
     @Override
-    public List<Task> findAll() {
-        return List.of(
-                new Task(1, "Task 1", "Description 1", "2021-01-01", TaskStatus.COMPLETED),
-                new Task(2, "Task 2", "Description 2", "2021-01-02", TaskStatus.PENDING),
-                new Task(3, "Task 3", "Description 3", "2021-01-03", TaskStatus.PENDING)
-        );
+    public List<Task> findAll() throws IOException, ParseException {
+        List<Task> result = new ArrayList<>();
+        JSONObject jsonObject = getJsonObject();
+        JSONArray tasks = (JSONArray) jsonObject.get("tasks");
+        for (JSONObject taskJson : (Iterable<JSONObject>) tasks) {
+            Task task = new Task(
+                    ((Long) taskJson.get("id")).intValue(),
+                    (String) taskJson.get("title"),
+                    (String) taskJson.get("description"),
+                    (String) taskJson.get("due_date"),
+                    TaskStatus.fromString((String) taskJson.get("status"))
+            );
+            result.add(task);
+        }
+        return result;
     }
 
     private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {

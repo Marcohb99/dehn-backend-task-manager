@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.io.IOException;
 import java.util.List;
 
 @ShellComponent
@@ -16,7 +17,16 @@ public class ListTasksCommand {
 
     @ShellMethod(key = "list-tasks", value = "List all tasks")
     public String invoke() {
-        List<Task> tasks = this.listTasks.execute();
+        try {
+            List<Task> tasks = this.listTasks.execute();
+            return this.formatOutput(tasks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    private String formatOutput(List<Task> tasks) {
         StringBuilder output = new StringBuilder("ID\tTitle\tDescription\tDue Date\tStatus\n");
         for (Task task: tasks) {
             output.append(String.format(
@@ -25,7 +35,7 @@ public class ListTasksCommand {
                     task.getTitle(),
                     task.getDescription(),
                     task.getDueDate(),
-                    "pending"
+                    task.getStatus().toString()
             ));
         }
         return output.toString();
