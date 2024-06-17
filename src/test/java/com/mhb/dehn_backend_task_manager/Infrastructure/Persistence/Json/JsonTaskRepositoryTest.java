@@ -1,6 +1,7 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json;
 
 import com.mhb.dehn_backend_task_manager.Domain.Task;
+import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -20,13 +21,13 @@ public class JsonTaskRepositoryTest {
         // Given / Arrange
         this.cleanDatabase();
         JsonTaskRepository jsonTaskRepository = new JsonTaskRepository(databasePath);
-        Task expected = new Task(1, "title", "description", "dueDate");
+        Task expected = new Task(1, "title", "description", "dueDate", TaskStatus.PENDING);
         String title = "title";
         String description = "description";
         String dueDate = "dueDate";
 
         // When / Act
-        Task task = jsonTaskRepository.create(title, description, dueDate);
+        Task task = jsonTaskRepository.create(title, description, dueDate, TaskStatus.PENDING);
 
         // Then / Assert
         assert expected.equals(task);

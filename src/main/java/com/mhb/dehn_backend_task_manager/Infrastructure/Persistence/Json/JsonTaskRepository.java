@@ -2,6 +2,7 @@ package com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json;
 
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
+import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,13 +23,20 @@ public class JsonTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Task create(String title, String description, String dueDate) throws IOException, ParseException {
+    public Task create(
+            String title,
+            String description,
+            String dueDate,
+            TaskStatus status
+    ) throws IOException, ParseException {
         Integer nextId = this.getNextId();
         JSONObject taskObj = new JSONObject();
         taskObj.put("id", nextId);
         taskObj.put("title", title);
         taskObj.put("description", description);
         taskObj.put("due_date", dueDate);
+        taskObj.put("status", status.toString());
+
 
         try {
             this.updateJsonFile(taskObj, nextId);
@@ -37,7 +45,7 @@ public class JsonTaskRepository implements TaskRepository {
         }
 
         System.out.print("Inserted " + taskObj.toJSONString());
-        return new Task(nextId, title, description, dueDate);
+        return new Task(nextId, title, description, dueDate, status);
     }
 
     private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {

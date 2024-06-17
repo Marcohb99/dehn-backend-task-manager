@@ -2,6 +2,7 @@ package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
 import com.mhb.dehn_backend_task_manager.Application.UseCase.CreateTask;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
+import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
 import com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json.JsonTaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,7 +28,8 @@ public class CreateTaskCommandTest {
         String result = createTaskCommand.invoke(
                 "sample-title",
                 "sample-description",
-                "sample-dueDate"
+                "sample-dueDate",
+                TaskStatus.PENDING.toString()
         );
 
         // Then

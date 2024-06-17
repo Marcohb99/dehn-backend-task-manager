@@ -1,1 +1,1 @@
-{"tasks":[{"due_date":"sample-dueDate","description":"sample-description","id":1,"title":"sample-title"}],"next_id":2}
+{"tasks":[{"due_date":"sample-dueDate","description":"sample-description","id":1,"title":"sample-title","status":"PENDING"}],"next_id":2}
