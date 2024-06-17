@@ -1,3 +1,13 @@
+## 0.4.0 (2024-06-17)
+
+### Feat
+
+- **list-task**: add command to list tasks and happy path test
+
+### Fix
+
+- adapt command adding status
+
 ## 0.3.0 (2024-06-17)
 
 ### Feat
