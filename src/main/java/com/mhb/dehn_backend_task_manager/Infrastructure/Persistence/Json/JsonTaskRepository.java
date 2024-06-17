@@ -67,6 +67,11 @@ public class JsonTaskRepository implements TaskRepository {
         return result;
     }
 
+    @Override
+    public void update(Task task) {
+        // TODO: Implement this method
+    }
+
     private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {
         JSONObject oldJsonObject = getJsonObject();
 

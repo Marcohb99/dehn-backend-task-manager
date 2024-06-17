@@ -14,4 +14,6 @@ public interface TaskRepository {
     ) throws IOException, ParseException;
 
     List<Task> findAll() throws IOException, ParseException;
+
+    void update(Task task);
 }
