@@ -1,5 +1,6 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
+import com.mhb.dehn_backend_task_manager.Application.UseCase.ListTasks;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,9 @@ public class ListTasksCommandTest {
     @Test
     public void testInvoke() {
         // Given / Arrange
-        ListTasksCommand listTasksCommand = new ListTasksCommand();
+        ListTasksCommand listTasksCommand = new ListTasksCommand(
+                new ListTasks()
+        );
         List<Task> tasks = List.of(
                 new Task(1, "Task 1", "Description 1", "2021-01-01", TaskStatus.COMPLETED),
                 new Task(2, "Task 2", "Description 2", "2021-01-02", TaskStatus.PENDING),
