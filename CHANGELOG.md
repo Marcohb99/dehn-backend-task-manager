@@ -1,3 +1,9 @@
+## 0.8.0 (2024-06-17)
+
+### Feat
+
+- **update-task**: implement update task repository method and added error in case the task is not found
+
 ## 0.7.0 (2024-06-17)
 
 ### Feat
