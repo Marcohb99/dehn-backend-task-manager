@@ -1,6 +1,7 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
 import com.mhb.dehn_backend_task_manager.Application.UseCase.CreateTask;
+import com.mhb.dehn_backend_task_manager.Domain.Task;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
@@ -18,12 +19,17 @@ public class CreateTaskCommand {
             @ShellOption String description,
             @ShellOption String dueDate
     ) {
-        this.createTask.execute(title, description, dueDate);
-        return String.format(
-                "Task with id: %d, title: %s, and due date: %s created successfully!",
-                1,
-                title,
-                dueDate
-        );
+        try {
+            Task task = this.createTask.execute(title, description, dueDate);
+            return String.format(
+                    "Task with id: %d, title: %s, and due date: %s created successfully!",
+                    task.getId(),
+                    task.getTitle(),
+                    task.getDueDate()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
     }
 }
