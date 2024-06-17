@@ -17,10 +17,11 @@ public class CreateTaskCommand {
     public String invoke(
             @ShellOption String title,
             @ShellOption String description,
-            @ShellOption String dueDate
+            @ShellOption String dueDate,
+            @ShellOption String status
     ) {
         try {
-            Task task = this.createTask.execute(title, description, dueDate);
+            Task task = this.createTask.execute(title, description, dueDate, status);
             return String.format(
                     "Task with id: %d, title: %s, and due date: %s created successfully!",
                     task.getId(),

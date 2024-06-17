@@ -5,5 +5,10 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public interface TaskRepository {
-    public Task create(String title, String description, String dueDate) throws IOException, ParseException;
+    Task create(
+            String title,
+            String description,
+            String dueDate,
+            TaskStatus status
+    ) throws IOException, ParseException;
 }
