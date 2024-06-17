@@ -46,7 +46,6 @@ public class JsonTaskRepository implements TaskRepository {
             e.printStackTrace();
         }
 
-        System.out.print("Inserted " + taskObj.toJSONString());
         return new Task(nextId, title, description, dueDate, status);
     }
 
