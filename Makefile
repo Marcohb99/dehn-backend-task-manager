@@ -9,3 +9,6 @@ run-create-task:
 
 run-list-tasks:
 	java -jar target/dehn-backend-task-manager-0.0.1-SNAPSHOT.jar list-tasks $(args)
+
+run-update-task:
+	java -jar target/dehn-backend-task-manager-0.0.1-SNAPSHOT.jar update-task $(args)
