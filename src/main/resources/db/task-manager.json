@@ -1,1 +1,4 @@
-{"tasks":[{"due_date":"ajksdkj","description":"def","id":1,"title":"abc","status":"COMPLETED"}],"next_id":2}
+{
+  "tasks":[],
+  "next_id":1
+}

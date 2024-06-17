@@ -41,7 +41,7 @@ public class JsonTaskRepository implements TaskRepository {
 
 
         try {
-            this.updateJsonFile(taskObj, nextId);
+            this.updateJsonWithNewTask(taskObj, nextId);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class JsonTaskRepository implements TaskRepository {
     public void update(Task task) throws IOException, ParseException, TaskNotFound {
         JSONObject oldJsonObject = getJsonObject();
         JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
-        Boolean taskExists = false;
+        boolean taskExists = false;
 
         for (JSONObject taskJson : (Iterable<JSONObject>) taskList) {
             Integer taskId = ((Long) taskJson.get("id")).intValue();
@@ -88,6 +88,33 @@ public class JsonTaskRepository implements TaskRepository {
             throw TaskNotFound.fromTaskId(task.getId());
         }
 
+        this.updateJson(oldJsonObject, taskList);
+    }
+
+    @Override
+    public void delete(Integer taskId) throws IOException, ParseException, TaskNotFound {
+        JSONObject oldJsonObject = getJsonObject();
+
+        JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
+        boolean taskExists = false;
+
+        for (JSONObject taskJson : (Iterable<JSONObject>) taskList) {
+            Integer id = ((Long) taskJson.get("id")).intValue();
+            if (id.equals(taskId)) {
+                taskExists = true;
+                taskList.remove(taskJson);
+                break;
+            }
+        }
+
+        if (!taskExists) {
+            throw TaskNotFound.fromTaskId(taskId);
+        }
+
+        this.updateJson(oldJsonObject, taskList);
+    }
+
+    private void updateJson(JSONObject oldJsonObject, JSONArray taskList) {
         JSONObject newJson = new JSONObject();
         newJson.put("next_id", oldJsonObject.get("next_id"));
         newJson.put("tasks", taskList);
@@ -100,12 +127,7 @@ public class JsonTaskRepository implements TaskRepository {
         }
     }
 
-    @Override
-    public void delete(Integer taskId) throws IOException, ParseException, TaskNotFound {
-        // TODO: Implement delete
-    }
-
-    private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {
+    private void updateJsonWithNewTask(JSONObject taskObj, Integer nextId) throws IOException, ParseException {
         JSONObject oldJsonObject = getJsonObject();
 
         JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
