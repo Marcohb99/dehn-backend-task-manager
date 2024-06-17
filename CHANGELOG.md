@@ -1,3 +1,9 @@
+## 0.7.0 (2024-06-17)
+
+### Feat
+
+- **update-task**: implement use case logic o update task
+
 ## 0.6.0 (2024-06-17)
 
 ### Feat
