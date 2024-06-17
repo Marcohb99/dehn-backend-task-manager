@@ -1,3 +1,9 @@
+## 0.6.0 (2024-06-17)
+
+### Feat
+
+- **update-task-command**: add update task command and test with fake implementation
+
 ## 0.5.0 (2024-06-17)
 
 ### Feat
