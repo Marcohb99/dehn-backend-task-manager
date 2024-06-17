@@ -1,3 +1,9 @@
+## 0.10.0 (2024-06-17)
+
+### Feat
+
+- **use-case**: delete task use case implemented and tested, also adapted the command test
+
 ## 0.9.0 (2024-06-17)
 
 ### Feat
