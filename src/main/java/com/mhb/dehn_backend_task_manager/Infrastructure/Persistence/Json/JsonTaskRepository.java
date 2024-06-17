@@ -1,5 +1,6 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
@@ -68,8 +69,35 @@ public class JsonTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void update(Task task) {
-        // TODO: Implement this method
+    public void update(Task task) throws IOException, ParseException, TaskNotFound {
+        JSONObject oldJsonObject = getJsonObject();
+        JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
+        Boolean taskExists = false;
+
+        for (JSONObject taskJson : (Iterable<JSONObject>) taskList) {
+            Integer taskId = ((Long) taskJson.get("id")).intValue();
+            if (taskId.equals(task.getId())) {
+                taskExists = true;
+                taskJson.put("title", task.getTitle());
+                taskJson.put("description", task.getDescription());
+                taskJson.put("due_date", task.getDueDate());
+                taskJson.put("status", task.getStatus().toString());
+            }
+        }
+        if (!taskExists) {
+            throw TaskNotFound.fromTaskId(task.getId());
+        }
+
+        JSONObject newJson = new JSONObject();
+        newJson.put("next_id", oldJsonObject.get("next_id"));
+        newJson.put("tasks", taskList);
+
+        try (FileWriter file = new FileWriter(this.databasePath)) {
+            file.write(newJson.toJSONString());
+            file.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {

@@ -1,16 +1,20 @@
 package com.mhb.dehn_backend_task_manager.Application.UseCase;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
+import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
+
 @SpringBootTest
 public class UpdateTaskTest {
     @Test
-    public void testExecute() {
+    public void testExecute() throws IOException, ParseException, TaskNotFound {
         // Given / Arrange
         TaskRepository repositoryMock = Mockito.mock(TaskRepository.class);
         UpdateTask sut = new UpdateTask(repositoryMock);

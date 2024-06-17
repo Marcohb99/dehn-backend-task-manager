@@ -1,6 +1,7 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
 import com.mhb.dehn_backend_task_manager.Application.UseCase.UpdateTask;
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -19,7 +20,14 @@ public class UpdateTaskCommand {
             @ShellOption String dueDate,
             @ShellOption String status
     ) {
-        this.updateTask.execute(taskId, title, description, dueDate, status);
-        return "Task with id " + taskId + " updated";
+        try {
+            this.updateTask.execute(taskId, title, description, dueDate, status);
+            return "Task with id " + taskId + " updated";
+        } catch (TaskNotFound e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
     }
 }

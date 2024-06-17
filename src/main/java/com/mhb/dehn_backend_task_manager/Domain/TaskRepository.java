@@ -1,5 +1,6 @@
 package com.mhb.dehn_backend_task_manager.Domain;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -15,5 +16,5 @@ public interface TaskRepository {
 
     List<Task> findAll() throws IOException, ParseException;
 
-    void update(Task task);
+    void update(Task task) throws IOException, ParseException, TaskNotFound;
 }
