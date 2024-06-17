@@ -1,3 +1,13 @@
+## 1.0.0 (2024-06-17)
+
+### BREAKING CHANGE
+
+- first full-working version!
+
+### Feat
+
+- **readme**: update readme
+
 ## 0.11.0 (2024-06-17)
 
 ### Feat
