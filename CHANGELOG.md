@@ -1,3 +1,11 @@
+## 0.5.0 (2024-06-17)
+
+### Feat
+
+- **list-task**: finish implementation
+- **repository**: add findAll method and adapt tests, still with dummy data
+- **use-case**: fake use case implementation
+
 ## 0.4.0 (2024-06-17)
 
 ### Feat
