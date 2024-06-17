@@ -1,3 +1,9 @@
+## 0.2.0 (2024-06-17)
+
+### Feat
+
+- **save**: implement json repository to save task
+
 ## 0.1.0 (2024-06-14)
 
 ### Feat
