@@ -7,10 +7,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 @SpringBootTest
 public class JsonTaskRepositoryTest {
@@ -46,5 +46,23 @@ public class JsonTaskRepositoryTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testFindAll() {
+        // Given / Arrange
+        JsonTaskRepository jsonTaskRepository = new JsonTaskRepository(databasePath);
+
+        // When / Act
+        List<Task> tasks = jsonTaskRepository.findAll();
+
+        // Then / Assert
+        assert tasks.equals(
+                List.of(
+                new Task(1, "Task 1", "Description 1", "2021-01-01", TaskStatus.COMPLETED),
+                new Task(2, "Task 2", "Description 2", "2021-01-02", TaskStatus.PENDING),
+                new Task(3, "Task 3", "Description 3", "2021-01-03", TaskStatus.PENDING)
+            )
+        );
     }
 }

@@ -3,18 +3,24 @@ package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 import com.mhb.dehn_backend_task_manager.Application.UseCase.ListTasks;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
+import com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json.JsonTaskRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 
 @SpringBootTest
+@TestPropertySource(properties = "database.path=src/test/java/com/mhb/dehn_backend_task_manager/Infrastructure/Persistence/Json/test_database.json")
 public class ListTasksCommandTest {
+    private final String databasePath = "src/test/java/com/mhb/dehn_backend_task_manager/Infrastructure/Persistence/Json/test_database.json";
     @Test
     public void testInvoke() {
         // Given / Arrange
         ListTasksCommand listTasksCommand = new ListTasksCommand(
-                new ListTasks()
+                new ListTasks(
+                        new JsonTaskRepository(databasePath)
+                )
         );
         List<Task> tasks = List.of(
                 new Task(1, "Task 1", "Description 1", "2021-01-01", TaskStatus.COMPLETED),
