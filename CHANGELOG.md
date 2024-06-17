@@ -1,3 +1,10 @@
+## 0.11.0 (2024-06-17)
+
+### Feat
+
+- **delete-task**: add test to the command test that check the case when the task is not found
+- **delete-task**: implement repository
+
 ## 0.10.0 (2024-06-17)
 
 ### Feat
