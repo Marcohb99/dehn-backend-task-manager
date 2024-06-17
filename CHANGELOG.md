@@ -1,3 +1,9 @@
+## 0.3.0 (2024-06-17)
+
+### Feat
+
+- **task-status**: add enum with status and add it as a property to task entity
+
 ## 0.2.0 (2024-06-17)
 
 ### Feat
