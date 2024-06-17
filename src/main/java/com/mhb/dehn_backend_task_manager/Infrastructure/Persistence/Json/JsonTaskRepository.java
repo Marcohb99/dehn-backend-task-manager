@@ -100,6 +100,11 @@ public class JsonTaskRepository implements TaskRepository {
         }
     }
 
+    @Override
+    public void delete(Integer taskId) throws IOException, ParseException, TaskNotFound {
+        // TODO: Implement delete
+    }
+
     private void updateJsonFile(JSONObject taskObj, Integer nextId) throws IOException, ParseException {
         JSONObject oldJsonObject = getJsonObject();
 
