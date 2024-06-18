@@ -64,6 +64,7 @@ The process of implementing the task has been more or less as follows:
 
 Some notes:
 
+- Before pushing, all the tests are run with a pre-push hook
 - Sometimes in step 3 I also sketch the repository methods because they were obvious
 - Some **refactors** are made throughout the process
 - Of course, I did not follow this pattern to the letter, but it was the general idea
