@@ -91,11 +91,11 @@ To generate the jar file, run the following command:
 ```bash
 # Unix alternatives
 make clean-package
-./mvnw clean package
+./mvnw clean package -DskipTests
 
 # Windows alternatives
-mvn clean package
-./mvnw.cmd clean package
+mvn clean package -DskipTests
+./mvnw.cmd clean package -DskipTests
 ```
 
 This will generate the [executable jar file](target/dehn-backend-task-manager-0.0.1-SNAPSHOT.jar) in the `target` directory.
