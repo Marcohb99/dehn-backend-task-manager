@@ -1,3 +1,9 @@
+## 1.1.0 (2024-06-18)
+
+### Feat
+
+- improved several things such as exception handling, comments and readme
+
 ## 1.0.0 (2024-06-17)
 
 ### BREAKING CHANGE
