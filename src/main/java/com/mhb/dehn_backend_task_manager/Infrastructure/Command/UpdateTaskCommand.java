@@ -1,7 +1,6 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
 import com.mhb.dehn_backend_task_manager.Application.UseCase.UpdateTask;
-import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -14,19 +13,22 @@ public class UpdateTaskCommand {
 
     @ShellMethod(key = "update-task", value = "Update a task with a given id")
     public String invoke(
-            @ShellOption Integer taskId,
-            @ShellOption String title,
-            @ShellOption String description,
-            @ShellOption String dueDate,
-            @ShellOption String status
+            @ShellOption(defaultValue = "0") String taskId,
+            @ShellOption(defaultValue = "") String title,
+            @ShellOption(defaultValue = "") String description,
+            @ShellOption(defaultValue = "") String dueDate,
+            @ShellOption(defaultValue = "") String status
     ) {
         try {
-            this.updateTask.execute(taskId, title, description, dueDate, status);
+            int taskIdInt = Integer.parseInt(taskId);
+            if (taskIdInt == 0 || title.equals("") || description.equals("") || dueDate.equals("") || status.equals("")) {
+                return "Please provide all the required fields: taskId, title, description, dueDate and status";
+            }
+            this.updateTask.execute(taskIdInt, title, description, dueDate, status);
             return "Task with id " + taskId + " updated";
-        } catch (TaskNotFound e) {
-            return e.getMessage();
+        } catch (NumberFormatException e) {
+            return "Please provide a valid taskId";
         } catch (Exception e) {
-            e.printStackTrace();
             return e.getMessage();
         }
     }

@@ -11,20 +11,18 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 @TestPropertySource(properties = "database.path=src/test/java/com/mhb/dehn_backend_task_manager/Infrastructure/Persistence/Json/test_database.json")
 public class CreateTaskCommandTest {
-    //TODO: use the shell test framework to test the command
-    // https://docs.spring.io/spring-shell/reference/testing/basics.html
 
     private final String databasePath = "src/test/java/com/mhb/dehn_backend_task_manager/Infrastructure/Persistence/Json/test_database.json";
     @Test
     public void testInvoke() {
-        // Given
+        // Given / Arrange
         CreateTaskCommand createTaskCommand = new CreateTaskCommand(
                 new CreateTask(
                         new JsonTaskRepository(databasePath)
                 )
         );
 
-        // When
+        // When / Act
         String result = createTaskCommand.invoke(
                 "sample-title",
                 "sample-description",
@@ -32,7 +30,7 @@ public class CreateTaskCommandTest {
                 TaskStatus.PENDING.toString()
         );
 
-        // Then
+        // Then / Assert
         assert result.equals(
                 String.format(
                         "Task with id: %d, title: %s, and due date: %s created successfully!",
@@ -41,5 +39,26 @@ public class CreateTaskCommandTest {
                         "sample-dueDate"
                 )
         );
+    }
+
+    @Test
+    public void testInvokeInvalidParams() {
+        // Given / Arrange
+        CreateTaskCommand createTaskCommand = new CreateTaskCommand(
+                new CreateTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = createTaskCommand.invoke(
+                "",
+                "",
+                "sample-dueDate",
+                TaskStatus.PENDING.toString()
+        );
+
+        // Then / Assert
+        assert "Please provide all the required fields: title, description and dueDate".equals(result);
     }
 }

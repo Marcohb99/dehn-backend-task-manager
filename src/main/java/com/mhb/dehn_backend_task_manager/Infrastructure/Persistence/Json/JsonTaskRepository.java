@@ -1,6 +1,7 @@
 package com.mhb.dehn_backend_task_manager.Infrastructure.Persistence.Json;
 
 import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskRepositoryException;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
@@ -30,7 +31,7 @@ public class JsonTaskRepository implements TaskRepository {
             String description,
             String dueDate,
             TaskStatus status
-    ) throws IOException, ParseException {
+    ) throws TaskRepositoryException {
         Integer nextId = this.getNextId();
         JSONObject taskObj = new JSONObject();
         taskObj.put("id", nextId);
@@ -40,17 +41,12 @@ public class JsonTaskRepository implements TaskRepository {
         taskObj.put("status", status.toString());
 
 
-        try {
-            this.updateJsonWithNewTask(taskObj, nextId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        this.updateJsonWithNewTask(taskObj, nextId);
         return new Task(nextId, title, description, dueDate, status);
     }
 
     @Override
-    public List<Task> findAll() throws IOException, ParseException {
+    public List<Task> findAll() throws TaskRepositoryException {
         List<Task> result = new ArrayList<>();
         JSONObject jsonObject = getJsonObject();
         JSONArray tasks = (JSONArray) jsonObject.get("tasks");
@@ -68,7 +64,7 @@ public class JsonTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void update(Task task) throws IOException, ParseException, TaskNotFound {
+    public void update(Task task) throws TaskRepositoryException, TaskNotFound {
         JSONObject oldJsonObject = getJsonObject();
         JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
         boolean taskExists = false;
@@ -91,7 +87,7 @@ public class JsonTaskRepository implements TaskRepository {
     }
 
     @Override
-    public void delete(Integer taskId) throws IOException, ParseException, TaskNotFound {
+    public void delete(Integer taskId) throws TaskRepositoryException, TaskNotFound {
         JSONObject oldJsonObject = getJsonObject();
 
         JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
@@ -126,7 +122,7 @@ public class JsonTaskRepository implements TaskRepository {
         }
     }
 
-    private void updateJsonWithNewTask(JSONObject taskObj, Integer nextId) throws IOException, ParseException {
+    private void updateJsonWithNewTask(JSONObject taskObj, Integer nextId) throws TaskRepositoryException {
         JSONObject oldJsonObject = getJsonObject();
 
         JSONArray taskList = (JSONArray) oldJsonObject.get("tasks");
@@ -140,18 +136,22 @@ public class JsonTaskRepository implements TaskRepository {
             file.write(newJson.toJSONString());
             file.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw TaskRepositoryException.fromError(e.getMessage());
         }
     }
 
-    private Integer getNextId() throws IOException, ParseException {
+    private Integer getNextId() throws TaskRepositoryException {
         return ((Long) getJsonObject().get("next_id")).intValue();
     }
 
-    private JSONObject getJsonObject() throws IOException, ParseException {
-        JSONParser parser = new JSONParser();
-        Reader reader = new FileReader(this.databasePath);
-        Object oldJson = parser.parse(reader);
-        return (JSONObject) oldJson;
+    private JSONObject getJsonObject() throws TaskRepositoryException {
+        try {
+            JSONParser parser = new JSONParser();
+            Reader reader = new FileReader(this.databasePath);
+            Object oldJson = parser.parse(reader);
+            return (JSONObject) oldJson;
+        } catch (IOException | ParseException e) {
+            throw TaskRepositoryException.fromError(e.getMessage());
+        }
     }
 }

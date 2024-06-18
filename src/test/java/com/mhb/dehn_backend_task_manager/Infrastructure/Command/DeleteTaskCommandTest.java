@@ -23,7 +23,7 @@ public class DeleteTaskCommandTest {
         );
 
         // When / Act
-        String result = deleteTaskCommand.invoke(1);
+        String result = deleteTaskCommand.invoke("1");
 
         // Then / Assert
         assert "Task with id 1 deleted".equals(result);
@@ -43,12 +43,43 @@ public class DeleteTaskCommandTest {
         );
 
         // When / Act
-        String result = deleteTaskCommand.invoke(1);
+        String result = deleteTaskCommand.invoke("1");
 
         // Then / Assert
         assert "Task with id 1 not found".equals(result);
+    }
 
-        // Clean up
+    @Test
+    public void testInvokeInvalidTaskId() {
+        // Given / Arrange
         TaskFixture.cleanDatabase(databasePath);
+        DeleteTaskCommand deleteTaskCommand = new DeleteTaskCommand(
+                new DeleteTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = deleteTaskCommand.invoke("abc");
+
+        // Then / Assert
+        assert "Please provide a valid task id to delete".equals(result);
+    }
+
+    @Test
+    public void testInvokeInvalidTaskIdZero() {
+        // Given / Arrange
+        TaskFixture.cleanDatabase(databasePath);
+        DeleteTaskCommand deleteTaskCommand = new DeleteTaskCommand(
+                new DeleteTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = deleteTaskCommand.invoke("0");
+
+        // Then / Assert
+        assert "Please provide a task id to delete".equals(result);
     }
 }

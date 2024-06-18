@@ -2,12 +2,10 @@ package com.mhb.dehn_backend_task_manager.Infrastructure.Command;
 
 import com.mhb.dehn_backend_task_manager.Application.UseCase.ListTasks;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
-import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
-import java.io.IOException;
 import java.util.List;
 
 @ShellComponent
@@ -21,7 +19,6 @@ public class ListTasksCommand {
             List<Task> tasks = this.listTasks.execute();
             return this.formatOutput(tasks);
         } catch (Exception e) {
-            e.printStackTrace();
             return e.getMessage();
         }
     }

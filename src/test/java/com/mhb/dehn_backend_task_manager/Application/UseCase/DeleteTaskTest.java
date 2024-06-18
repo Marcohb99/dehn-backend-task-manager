@@ -1,17 +1,16 @@
 package com.mhb.dehn_backend_task_manager.Application.UseCase;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskRepositoryException;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
-import org.json.simple.parser.ParseException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.io.IOException;
-
 @SpringBootTest
 public class DeleteTaskTest {
     @Test
-    public void testUpdateTask() throws IOException, ParseException {
+    public void testUpdateTask() throws TaskRepositoryException, TaskNotFound {
         // Given / Arrange
         TaskRepository repositoryMock = Mockito.mock(TaskRepository.class);
         DeleteTask sut = new DeleteTask(repositoryMock);

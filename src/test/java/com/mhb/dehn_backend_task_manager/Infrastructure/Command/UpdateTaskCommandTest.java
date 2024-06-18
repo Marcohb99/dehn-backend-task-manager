@@ -25,7 +25,7 @@ public class UpdateTaskCommandTest {
 
         // When / Act
         String result = updateTaskCommand.invoke(
-                1,
+                "1",
                 "Task 1111",
                 "Description of Task 1111",
                 "2021-01-01",
@@ -50,7 +50,7 @@ public class UpdateTaskCommandTest {
 
         // When / Act
         String result = updateTaskCommand.invoke(
-                123456,
+                "123456",
                 "Task 1111",
                 "Description of Task 1111",
                 "2021-01-01",
@@ -59,5 +59,71 @@ public class UpdateTaskCommandTest {
 
         // Then / Assert
         assert "Task with id 123456 not found".equals(result);
+    }
+
+    @Test
+    public void testInvokeInvalidTaskId() {
+        // Given / Arrange
+        UpdateTaskCommand updateTaskCommand = new UpdateTaskCommand(
+                new UpdateTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = updateTaskCommand.invoke(
+                "abc",
+                "Task 1111",
+                "Description of Task 1111",
+                "2021-01-01",
+                TaskStatus.PENDING.toString()
+        );
+
+        // Then / Assert
+        assert "Please provide a valid taskId".equals(result);
+    }
+
+    @Test
+    public void testInvokeZeroTaskId() {
+        // Given / Arrange
+        UpdateTaskCommand updateTaskCommand = new UpdateTaskCommand(
+                new UpdateTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = updateTaskCommand.invoke(
+                "0",
+                "Task 1111",
+                "Description of Task 1111",
+                "2021-01-01",
+                TaskStatus.PENDING.toString()
+        );
+
+        // Then / Assert
+        assert "Please provide all the required fields: taskId, title, description, dueDate and status".equals(result);
+    }
+
+    @Test
+    public void testInvokeInvalidParams() {
+        // Given / Arrange
+        UpdateTaskCommand updateTaskCommand = new UpdateTaskCommand(
+                new UpdateTask(
+                        new JsonTaskRepository(databasePath)
+                )
+        );
+
+        // When / Act
+        String result = updateTaskCommand.invoke(
+                "1",
+                "",
+                "",
+                "2021-01-01",
+                TaskStatus.PENDING.toString()
+        );
+
+        // Then / Assert
+        assert "Please provide all the required fields: taskId, title, description, dueDate and status".equals(result);
     }
 }

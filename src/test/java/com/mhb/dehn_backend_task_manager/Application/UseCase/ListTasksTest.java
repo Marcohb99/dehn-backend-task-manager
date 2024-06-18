@@ -1,5 +1,7 @@
 package com.mhb.dehn_backend_task_manager.Application.UseCase;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskNotFound;
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskRepositoryException;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
@@ -14,7 +16,7 @@ import java.util.List;
 @SpringBootTest
 public class ListTasksTest {
     @Test
-    public void testExecute() throws IOException, ParseException {
+    public void testExecute() throws TaskRepositoryException, TaskNotFound {
         // Given / Arrange
         TaskRepository repositoryMock = Mockito.mock(TaskRepository.class);
         Mockito.when(repositoryMock.findAll()).thenReturn(

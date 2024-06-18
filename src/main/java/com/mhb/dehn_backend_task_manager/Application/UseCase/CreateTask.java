@@ -1,5 +1,6 @@
 package com.mhb.dehn_backend_task_manager.Application.UseCase;
 
+import com.mhb.dehn_backend_task_manager.Domain.Exception.TaskRepositoryException;
 import com.mhb.dehn_backend_task_manager.Domain.Task;
 import com.mhb.dehn_backend_task_manager.Domain.TaskRepository;
 import com.mhb.dehn_backend_task_manager.Domain.TaskStatus;
@@ -19,7 +20,7 @@ public final class CreateTask {
             String description,
             String dueDate,
             String status
-    ) throws IOException, ParseException {
+    ) throws TaskRepositoryException {
         return this.taskRepository.create(title, description, dueDate, TaskStatus.fromString(status));
     }
 }
